@@ -62,7 +62,7 @@ for f_name in os.listdir(folderLoc):
     directory.append(f_name)
 
 orig_stdout = sys.stdout
-f = file('out.csv', 'w')
+f = file('permissions_frequency.csv', 'w')
 sys.stdout = f
 
 s = " ,CALANDER,CAMERA,CONTACTS,LOCATION,MICROPHONE,PHONE,SENSOR,SMS,STORAGE,OTHERS,TOTAL"

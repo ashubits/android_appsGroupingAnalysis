@@ -9,8 +9,11 @@ whether that apk requires that specific permission or not.
 
 ```
 **opcodeList.txt** contains all the opcodes which we will scan.                                       
+
 **opcodes_frequency.csv** contains frequency of occurance of opcodes in opcodeList in all the smali files present.  
+
 **size_of_apks.csv** contains range of size of apks with the factor of 200KB.
+
 **permission_frequency.csv** contains frequency of permissions accessed by the apk along with their sum.
 #Frequency scanner for size of apks
 ```

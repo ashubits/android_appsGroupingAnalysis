@@ -7,7 +7,7 @@ per_calender=['READ_CALENDAR','WRITE_CALENDAR']
 
 per_camera=['CAMERA']
 
-per_contacts=['READ_CONTACTS','WRITE_CONTACTS','GET_ACCOUNTS']
+per_contacts=['READ_CONTACTS','WRITE_CONTACTS','GET_ACcounterS']
 
 per_location=['ACCESS_FINE_LOCATION','ACCESS_COARSE_LOCATION']
 
@@ -26,7 +26,7 @@ all_permissions=[
 ,
 'CAMERA'
 
-,'READ_CONTACTS','WRITE_CONTACTS','GET_ACCOUNTS',
+,'READ_CONTACTS','WRITE_CONTACTS','GET_ACcounterS',
 
 'ACCESS_FINE_LOCATION','ACCESS_COARSE_LOCATION',
 
@@ -41,42 +41,47 @@ all_permissions=[
 'READ_EXTERNAL_STORAGE','WRITE_EXTERNAL_STORAGE'
 ]
 
-# print per_all
 
-folderLoc='/home/utkarsh/Downloads/ando'
+
+
+os.mkdir("CALENDER",0711)
+os.mkdir("CAMERA",0711)
+os.mkdir("LOCATION",0711)
+os.mkdir("OTHERS",0711)
+os.mkdir("SENSOR",0711)
+os.mkdir("PHONE",0711)
+os.mkdir("SMS",0711)
+os.mkdir("MICROPHONE",0711)
+os.mkdir("STORAGE",0711)
+os.mkdir("CONTACTS",0711)
+
+folderLoc='/home/utkarsh/Documents/android'
 
 directory=[]
 for f_name in os.listdir(folderLoc):
     directory.append(f_name)
 
 orig_stdout = sys.stdout
-f = file('out.txt', 'w')
+f = file('out.csv', 'w')
 sys.stdout = f
 
-s = " ,CALANDER,CAMERA,CONTACTS,LOCATION,MICROPHONE,PHONE,SENSOR,SMS,STORAGE,TOTAL "
+s = " ,CALANDER,CAMERA,CONTACTS,LOCATION,MICROPHONE,PHONE,SENSOR,SMS,STORAGE,OTHERS,TOTAL"
 fal=0
 
 print(s,end='')
 
 for f_name in directory:
-	x = [0]*9
+	x = [0]*10
 	total = 0
 	j = 0
 	fLoc=folderLoc+'/'+f_name
-	# fLoc = fLoc[:-4]
-
-  #   if not os.path.exists(fLoc):
-  #   	print "f_name doesn't exist for ", f_name
-		# break
 
 	rel_path =f_name+ "/AndroidManifest.xml"
 	abs_fpath = os.path.join(folderLoc, rel_path)
-
+	
 	try:
 
 		with open(abs_fpath, 'r') as f:
-			# #os.system("aapt d permissions "+ abs_fpath)
-			
 			next(f)
 			permission_app=[]
 			for line in f:
@@ -86,81 +91,96 @@ for f_name in directory:
 						if perm in a[1]:
 							permission_app.append(perm)
 
-			
-					# permission_app.append(re.search('.permission.(.*?)"/>', a[1]).group(1))
-
 				
-			
+			xloc  = '/home/utkarsh/Documents'
 			fileLoc=folderLoc+"/"+f_name
-			flag = [0]*9
+			flag = [0]*10
+			counter = 0
 			for app_per in permission_app:
 				
-			
 				if app_per in per_calender:
-					dst=folderLoc+"/CALENDER"
+					dst=xloc+"/CALENDER"
 					x[0] = 1
 					if flag[0]==0:
+						counter = counter+1
 						flag[0] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 
 				if app_per in per_camera:
-					dst=folderLoc+"/CAMERA"
-					x[1] = 1
+					dst=xloc+"/CAMERA"
+					x[1] = 1					
 					if flag[1] == 0:
+						counter = counter+1
 						flag[1] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_contacts:
-					dst=folderLoc+"/CONTACTS"
+					dst=xloc+"/CONTACTS"
 					x[2] = 1
 					if flag[2] == 0:
+						counter = counter+1
 						flag[2] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_location:
-					dst=folderLoc+"/LOCATION"
-					x[3] = 1
+					dst=xloc+"/LOCATION"
+					x[3] = 1					
 					if flag[3] == 0:
+						counter = counter+1
 						flag[3] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_microphone:
-					dst=folderLoc+"/MICROPHONE"
+					dst=xloc+"/MICROPHONE"
 					x[4] = 1
 					if flag[4] == 0:
+						counter = counter+1
 						flag[4] = 1
 						total = total+1
-
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_phone:
-					dst=folderLoc+"/PHONE"
+					dst=xloc+"/PHONE"
 					x[5] = 1
 					if flag[5] == 0:
+						counter = counter +1
 						flag[5] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sensor:
-					dst=folderLoc+"/SENSOR"
+					dst=xloc+"/SENSOR"
 					x[6] = 1
 					if flag[6] == 0:
+						counter = counter+1
 						flag[6] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sms:
-					dst=folderLoc+"/SMS"
-					x[7] = 1
+					dst=xloc+"/SMS"
+					x[7] = 1					
 					if flag[7] == 0:
+						counter = counter+1
 						flag[7] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_storage:
-					dst=folderLoc+"/STORAGE"
+					dst=xloc+"/STORAGE"
 					x[8] = 1
+					
 					if flag[8] == 0:
+						counter = counter+1
 						flag[8] = 1
 						total = total+1
-					#os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+			if counter==0:
+				dst=xloc+"/OTHERS"
+				x[9] = 1
+				
+				if flag[9] == 0:
+					flag[9] = 1
+					total = total+1
+				os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+	  
 		if fal==0:
 			print()
 			fal=fal+1
@@ -177,7 +197,7 @@ for f_name in directory:
 
 
 
-#sys.stdout = open('%s' % out_file, 'w')
+
 
 sys.stdout = orig_stdout
 sys.stdout.close()

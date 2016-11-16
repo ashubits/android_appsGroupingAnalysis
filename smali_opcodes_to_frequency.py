@@ -16,7 +16,7 @@ for filer in os.listdir(folderLoc):
     	files.append(filer)
     
 orig_stdout = sys.stdout
-f = file('out.txt', 'w')
+f = file('opcodes_count.csv', 'w')
 sys.stdout = f
 
 for filer in files:

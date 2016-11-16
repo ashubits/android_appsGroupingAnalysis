@@ -5,7 +5,7 @@ folderLoc = '/home/utkarsh/Documents/sample_apks'
 apkslist = []
 size=[]
 orig_stdout = sys.stdout
-f = file('out1.csv', 'w')
+f = file('size_of_apks.csv', 'w')
 sys.stdout = f
 
 for apks in os.listdir(folderLoc):

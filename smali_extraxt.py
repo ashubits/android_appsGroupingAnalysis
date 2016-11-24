@@ -2,6 +2,7 @@ import fnmatch
 import os
 import argparse
 import shutil
+import logging
 parser = argparse.ArgumentParser(description='Output several text files of smali files combined, corrosponding to each apk')
 parser.add_argument('-d','--directory', help='Location of Directory(folder) to scan for apk files', required=True)
 parser.add_argument('-o','--txtfile', help='Location of the text file', required=True)
@@ -37,9 +38,16 @@ for f_name in os.listdir(folderLoc):
 for folders in directorys:
 	absoluteLoc  = os.path.join(folderLoc,folders)
 	matches = []
+
 	for root, dirnames, filenames in os.walk(absoluteLoc):
-	    for filename in fnmatch.filter(filenames, '*.smali'):
-	        matches.append(os.path.join(root, filename))
+		try:
+		    for filename in fnmatch.filter(filenames, '*.smali'):
+		        matches.append(os.path.join(root, filename))
+		except Exception as e:
+				
+				exceptionLog = "errors.txt"
+				with open(exceptionLog,'w') as errorfile:
+					errorfile.write(logging.exception("Error in",folders))
 
 	textFileLoc =folders +".txt"
 	with open(textFileLoc, 'w') as outfile:

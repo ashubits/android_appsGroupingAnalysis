@@ -36,26 +36,30 @@ for f_name in os.listdir(folderLoc):
     directorys.append(f_name)
 
 for folders in directorys:
-	absoluteLoc  = os.path.join(folderLoc,folders)
-	matches = []
+	if not os.path.isfile(txtFileName + "/" +os.path.basename(folderLoc) + "/" + folders + ".txt"):
+		absoluteLoc  = os.path.join(folderLoc,folders)
+		matches = []
 
-	for root, dirnames, filenames in os.walk(absoluteLoc):
-		try:
-		    for filename in fnmatch.filter(filenames, '*.smali'):
-		        matches.append(os.path.join(root, filename))
-		except Exception as e:
-				
-				exceptionLog = "errors.txt"
-				with open(exceptionLog,'w') as errorfile:
-					errorfile.write(logging.exception("Error in",folders))
+		for root, dirnames, filenames in os.walk(absoluteLoc):
+			try:
+			    for filename in fnmatch.filter(filenames, '*.smali'):
+			        matches.append(os.path.join(root, filename))
+			except Exception as e:
+					
+					exceptionLog = "errors.txt"
+					with open(exceptionLog,'w') as errorfile:
+						errorfile.write(logging.exception("Error in",folders))
 
-	textFileLoc =folders +".txt"
-	with open(textFileLoc, 'w') as outfile:
-	    for fname in matches:
-	        with open(fname) as infile:
-	            for line in infile:
-	                outfile.write(line)
+		textFileLoc =folders +".txt"
+		with open(textFileLoc, 'w') as outfile:
+		    for fname in matches:
+		        with open(fname) as infile:
+		            for line in infile:
+		                outfile.write(line)
 
 
-	shutil.move(textFileLoc,txtFileName + "/" +os.path.basename(args['directory']))
-	
+		shutil.move(textFileLoc,txtFileName + "/" +os.path.basename(args['directory']))
+		
+	else :
+		continue
+		

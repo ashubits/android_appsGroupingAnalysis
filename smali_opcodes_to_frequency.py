@@ -3,9 +3,12 @@ from __future__ import print_function
 import os
 import sys
 import argparse
+import shutil
 
 parser = argparse.ArgumentParser(description='Output csv file with frequency of each opcode ')
 parser.add_argument('-d','--directory', help='Location of Directory(folder) to scan for smali text files', required=True)
+parser.add_argument('-o','--csvfile', help='Location of the text file', required=True)
+
 args = vars(parser.parse_args())
 
 
@@ -17,7 +20,7 @@ for eachLine in f1:
 f1.close()
 
 folderLoc= args['directory']
-# outputLoc  = args['csvfile']
+outputLoc  = args['csvfile']
 files=[]
 for filer in os.listdir(folderLoc):
     if filer.endswith(".txt"):
@@ -53,6 +56,7 @@ for filer in files:
 		
 	
 outfile.close()
+shutil.move(outputFile,outputLoc)
 
 
 # print "Done! Saved to file",out_file

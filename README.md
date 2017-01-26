@@ -1,7 +1,7 @@
 #Grouping decompressed apks on the basis of permissions they access.
 ```
 usage:
-python android_permission.py
+python android_permission.py -d input location
 
 Copies the decompressed apk folder to some already created folders on the basis of permission they
 access. It also creates a csv file containing name of apk and with the value 0 or 1 depending upon

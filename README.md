@@ -1,4 +1,4 @@
-#Grouping decompressed apks on the basis of permissions they access.
+# Grouping decompressed apks on the basis of permissions they access.
 ```
 usage:
 python android_permission.py -d input location
@@ -8,6 +8,13 @@ access. It also creates a csv file containing name of apk and with the value 0 o
 whether that apk requires that specific permission or not.
 
 ```
+# Decompress any app using apktool
+```
+usage:
+python apkcompression.py -d input location
+
+It decompress any .apk file using apktool. It also generates a .csv file having a value of 0 if there is no error on decompression else has a value 256 in case of any error.
+
 **opcodeList.txt** contains all the opcodes which we will scan.                                       
 
 **opcodes_frequency.csv** contains frequency of occurance of opcodes in opcodeList in all the smali files present.  
@@ -25,7 +32,7 @@ in a specific folder.
 
 
 ```
-#Extracting smali files from different apks
+# Extracting smali files from different apks
 ```
 usage:
 python smali_extreact.py
@@ -34,7 +41,7 @@ Output txt files in an already specified folder with title as name of the apk an
 the smali files of that apk concatenated in it.
 
 ```
-#Opcode frequency scanner for smali files present in apks
+# Opcode frequency scanner for smali files present in apks
 
 ```
 usage:

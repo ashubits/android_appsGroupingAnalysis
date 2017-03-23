@@ -15,6 +15,8 @@ python apkcompression.py -d input location
 
 It decompress any .apk file using apktool. It also generates a .csv file having a value of 0 if there is no error on decompression else has a value 256 in case of any error.
 
+```
+
 **opcodeList.txt** contains all the opcodes which we will scan.                                       
 
 **opcodes_frequency.csv** contains frequency of occurance of opcodes in opcodeList in all the smali files present.  
@@ -22,7 +24,7 @@ It decompress any .apk file using apktool. It also generates a .csv file having 
 **size_of_apks.csv** contains range of size of apks with the factor of 200KB.
 
 **permission_frequency.csv** contains frequency of permissions accessed by the apk along with their sum.
-#Frequency scanner for size of apks
+# Frequency scanner for size of apks
 ```
 usage:
 python size_of_apk_frequency.py

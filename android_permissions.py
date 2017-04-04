@@ -42,36 +42,40 @@ all_permissions=[
 
 'READ_EXTERNAL_STORAGE','WRITE_EXTERNAL_STORAGE'
 ]
-if not os.path.isdir("CALENDER"):
-	os.mkdir("CALENDER",0711)
-if not os.path.isdir("CAMERA"):
-	os.mkdir("CAMERA",0711)
-if not os.path.isdir("SMS"):
-	os.mkdir("SMS",0711)
-if not os.path.isdir("CONTACTS"):
-	os.mkdir("CONTACTS",0711)
-if not os.path.isdir("MICROPHONE"):
-	os.mkdir("MICROPHONE",0711)
-if not os.path.isdir("PHONE"):
-	os.mkdir("PHONE",0711)
-if not os.path.isdir("LOCATION"):
-	os.mkdir("LOCATION",0711)
-if not os.path.isdir("STORAGE"):
-	os.mkdir("STORAGE",0711)
-if not os.path.isdir("OTHERS"):
-	os.mkdir("OTHERS",0711)
-if not os.path.isdir("SENSOR"):
-	os.mkdir("SENSOR",0711)
-
 parser = argparse.ArgumentParser(description='Output several text files of smali files combined, corrosponding to each apk')
 parser.add_argument('-d','--director', help='Location of Directory(folder) to scan for apk files', required=True)
-# parser.add_argument('-o','--txtfile', help='Location of the text file', required=True)
+parser.add_argument('-o','--flocation', help='Location of the final folders', required=True)
 
 args = vars(parser.parse_args())
 
 folderLoc = args['director']
 
-# txtFileName = args['txtfile']
+floc = args['flocation']
+
+
+if not os.path.isdir(floc + "CALENDER"):
+	os.mkdir(floc + "CALENDER",0711)
+if not os.path.isdir(floc + "CAMERA"):
+	os.mkdir(floc + "CAMERA",0711)
+if not os.path.isdir(floc + "SMS"):
+	os.mkdir(floc + "SMS",0711)
+if not os.path.isdir(floc + "CONTACTS"):
+	os.mkdir(floc + "CONTACTS",0711)
+if not os.path.isdir(floc + "MICROPHONE"):
+	os.mkdir(floc + "MICROPHONE",0711)
+if not os.path.isdir(floc + "PHONE"):
+	os.mkdir(floc + "PHONE",0711)
+if not os.path.isdir(floc + "LOCATION"):
+	os.mkdir(floc + "LOCATION",0711)
+if not os.path.isdir(floc + "STORAGE"):
+	os.mkdir(floc + "STORAGE",0711)
+if not os.path.isdir(floc + "OTHERS"):
+	os.mkdir(floc + "OTHERS",0711)
+if not os.path.isdir(floc + "SENSOR"):
+	os.mkdir(floc + "SENSOR",0711)
+
+
+
 
 
 
@@ -128,7 +132,7 @@ for f_name in directory:
 				
 
 				if app_per in per_calender:
-					dst="CALENDER"
+					dst=floc + "CALENDER"
 					x[0] = 1
 					counter = counter+1
 					if flag[0]==0:
@@ -138,7 +142,7 @@ for f_name in directory:
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 
 				if app_per in per_camera:
-					dst="CAMERA"
+					dst=floc + "CAMERA"
 					x[1] = 1
 					counter = counter+1
 					if flag[1] == 0:
@@ -146,7 +150,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_contacts:
-					dst="CONTACTS"
+					dst=floc + "CONTACTS"
 					x[2] = 1
 					counter = counter+1
 					if flag[2] == 0:
@@ -154,7 +158,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_location:
-					dst="LOCATION"
+					dst=floc + "LOCATION"
 					x[3] = 1
 					counter = counter+1
 					if flag[3] == 0:
@@ -162,7 +166,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_microphone:
-					dst="MICROPHONE"
+					dst=floc + "MICROPHONE"
 					x[4] = 1
 					counter = counter+1
 					if flag[4] == 0:
@@ -171,7 +175,7 @@ for f_name in directory:
 
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_phone:
-					dst="PHONE"
+					dst=floc+"PHONE"
 					x[5] = 1
 					counter = counter+1
 					if flag[5] == 0:
@@ -179,7 +183,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sensor:
-					dst="SENSOR"
+					dst=floc + "SENSOR"
 					x[6] = 1
 					counter = counter+1
 					if flag[6] == 0:
@@ -187,7 +191,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sms:
-					dst="SMS"
+					dst=floc + "SMS"
 					x[7] = 1
 					counter = counter+1
 					if flag[7] == 0:
@@ -195,7 +199,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_storage:
-					dst="STORAGE"
+					dst=floc + "STORAGE"
 					x[8] = 1
 					counter = counter+1
 					if flag[8] == 0:
@@ -203,7 +207,7 @@ for f_name in directory:
 						total = total+1
 					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
 			if counter==0 :
-				dst="OTHERS"
+				dst=floc + "OTHERS"
 				x[9] = 1
 				if flag[9] == 0:
 					flag[9] = 1

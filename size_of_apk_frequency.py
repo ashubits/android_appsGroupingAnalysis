@@ -1,11 +1,19 @@
-import os,sys
+import os,sys,argparse
 
-folderLoc = '/home/utkarsh/Documents/sample_apks'
+parser = argparse.ArgumentParser(description='input location') #location where apks are present
+parser.add_argument('-d','--directory', help='input location', required=True)
+parser.add_argument('-o','--olocation', help='output location of csv', required=True)
+
+args = vars(parser.parse_args())
+
+
+folderLoc = args['directory']
+outlocation = args['olocation']
 
 apkslist = []
 size=[]
 orig_stdout = sys.stdout
-f = file('size_of_apks.csv', 'w')
+f = file(outlocation + "size_of_apks.csv", 'w')
 sys.stdout = f
 
 for apks in os.listdir(folderLoc):

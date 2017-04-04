@@ -4,10 +4,13 @@ import os,argparse,sys,shutil
 
 parser = argparse.ArgumentParser(description='input location') #location where apks are present
 parser.add_argument('-d','--directory', help='input location', required=True)
+parser.add_argument('-o','--olocation', help='output location', required=True)
+
 
 args = vars(parser.parse_args())
 
 folderLoc=args['directory']
+outlocation = args['olocation']
 
 if not os.path.exists(folderLoc):
 	print "Directory doesn't exist"
@@ -26,7 +29,7 @@ for file in os.listdir(folderLoc):
 for file in files:
 	source = folderLoc+'/'+file
 	
-	test="apktool d " + source 
+	test="apktool d " + source + "-o" + outlocation
 	print file,
 	print os.system(test)
 

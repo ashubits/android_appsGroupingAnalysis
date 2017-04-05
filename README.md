@@ -3,7 +3,7 @@
 usage:
 python android_permission.py -d input location -o output location
 
-input location is the absolute path of the directory which contains decompressed apks. Output location is the absolute path of the directory where we want all the 10 folders to be created and also there corrosponding smali file is copied to some of the 10 folders depending upon the permissions they use.
+input location is the absolute path of the directory which contains decompressed apks.It requires opcodeList.txt to be present in the same folder as that of the code folder. Output location is the absolute path of the directory where we want all the 10 folders to be created. Corrosponding smali file is copied to some of the 10 folders depending upon the permissions they use. copy of smali file is also created at the same location. 
 
 ```
 # Decompress any app using apktool

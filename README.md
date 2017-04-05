@@ -1,19 +1,17 @@
 # Grouping decompressed apks on the basis of permissions they access.
 ```
 usage:
-python android_permission.py -d input location
+python android_permission.py -d input location -o output location
 
-Copies the decompressed apk folder to some already created folders on the basis of permission they
-access. It also creates a csv file containing name of apk and with the value 0 or 1 depending upon
-whether that apk requires that specific permission or not.
+input location is the absolute path of the directory which contains decompressed apks. Output location is the absolute path of the directory where we want all the 10 folders to be created and also there corrosponding smali file is copied to some of the 10 folders depending upon the permissions they use.
 
 ```
 # Decompress any app using apktool
 ```
 usage:
-python apkcompression.py -d input location
+python apkcompression.py -d input location -o output location
 
-It decompress any .apk file using apktool. It also generates a .csv file having a value of 0 if there is no error on decompression else has a value 256 in case of any error.
+It decompress any .apk file using apktool at the desired location. It also generates a .csv file having a value of 0 if there is no error on decompression else has a value 256 in case of any error.
 
 ```
 
@@ -27,7 +25,7 @@ It decompress any .apk file using apktool. It also generates a .csv file having 
 # Frequency scanner for size of apks
 ```
 usage:
-python size_of_apk_frequency.py
+python size_of_apk_frequency.py -d input location -o output location
 
 Output a csv file containing the frequency range of size of apks with a factor of 200KB present
 in a specific folder.

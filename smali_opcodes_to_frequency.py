@@ -1,3 +1,4 @@
+
 #!/usr/bin python2
 from __future__ import print_function
 import os
@@ -23,7 +24,7 @@ folderLoc= args['directory']
 outputLoc  = args['csvfile']
 files=[]
 for filer in os.listdir(folderLoc):
-    if filer.endswith(".txt"):
+    if filer.endswith(".smali"):
     	files.append(filer)
     
 outputFile  = 'freq.csv'
@@ -40,10 +41,9 @@ for filer in files:
 	for line in f1:
 		splitter = line.split()
 		if splitter: 											#checking for null
-			a=splitter[0]										#saving first word
-			if not(a.startswith('#')): 		#detecting comment or a function
-				if a in opcodes:								
-					number[opcodes.index(a)]+=1					#increase freq if a is in opcodes
+			a=splitter[0]										#saving first word 		
+			if a in opcodes:								
+				number[opcodes.index(a)]+=1					#increase freq if a is in opcodes
 	
 	outfile.write(filer)
 	

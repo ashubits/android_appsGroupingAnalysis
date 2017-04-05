@@ -1,7 +1,10 @@
 #! /usr/bin python2
 from __future__ import print_function
 import argparse
+import fnmatch
 import re,os,sys
+import shutil
+import logging
 
 
 
@@ -42,7 +45,7 @@ all_permissions=[
 
 'READ_EXTERNAL_STORAGE','WRITE_EXTERNAL_STORAGE'
 ]
-parser = argparse.ArgumentParser(description='Output several text files of smali files combined, corrosponding to each apk')
+parser = argparse.ArgumentParser(description='Output category corrosponding to each apk')
 parser.add_argument('-d','--director', help='Location of Directory(folder) to scan for apk files', required=True)
 parser.add_argument('-o','--flocation', help='Location of the final folders', required=True)
 
@@ -52,7 +55,7 @@ folderLoc = args['director']
 
 floc = args['flocation']
 
-
+# creating folders if not exist
 if not os.path.isdir(floc + "CALENDER"):
 	os.mkdir(floc + "CALENDER",0711)
 if not os.path.isdir(floc + "CAMERA"):
@@ -74,43 +77,39 @@ if not os.path.isdir(floc + "OTHERS"):
 if not os.path.isdir(floc + "SENSOR"):
 	os.mkdir(floc + "SENSOR",0711)
 
+#folder creation done.
 
+f1 = open('opcodeList.txt', 'r')
+opcodes=[]
+for eachLine in f1:
+	opcodes.extend(eachLine.split()) 			#adding all opcodes in an array
+f1.close()
 
-
-
-
+#getting decompressed apk folders in "directory"
 directory=[]
 for f_name in os.listdir(folderLoc):
-    directory.append(f_name)
+	directory.append(f_name)
+#for writing into csv
+# orig_stdout = sys.stdout
+# f = file('out.csv', 'w')
+# sys.stdout = f
 
-orig_stdout = sys.stdout
-f = file('out.csv', 'w')
-sys.stdout = f
+# s = " ,CALANDER,CAMERA,CONTACTS,LOCATION,MICROPHONE,PHONE,SENSOR,SMS,STORAGE,OTHERS,TOTAL "
+# fal=0
 
-s = " ,CALANDER,CAMERA,CONTACTS,LOCATION,MICROPHONE,PHONE,SENSOR,SMS,STORAGE,OTHERS,TOTAL "
-fal=0
-
-print(s,end='')
-
+# print(s,end='')
+#starting partioning of each apk
 for f_name in directory:
 	x = [0]*10
 	total = 0
 	j = 0
 	fLoc=folderLoc+'/'+f_name
-	# fLoc = fLoc[:-4]
-
-  #   if not os.path.exists(fLoc):
-  #   	print "f_name doesn't exist for ", f_name
-		# break
-
+	#open manifest file
 	rel_path =f_name+ "/AndroidManifest.xml"
 	abs_fpath = os.path.join(folderLoc, rel_path)
 
 	try:
-
 		with open(abs_fpath, 'r') as f:
-			# #os.system("aapt d permissions "+ abs_fpath)
-			
 			next(f)
 			permission_app=[]
 			for line in f:
@@ -119,12 +118,32 @@ for f_name in directory:
 					for perm in all_permissions:
 						if perm in a[1]:
 							permission_app.append(perm)
+							#permission_app contains all permissions of current apk
+							#extracting smali files 
+		abs_fpath_smali = os.path.join(folderLoc,f_name) 
+		matches = []
+		for root,dirnames,filenames in os.walk(abs_fpath_smali):
+			try:
+				for filename in fnmatch.filter(filenames, '*.smali'):
+				   	matches.append(os.path.join(root, filename))
+			except Exception as e:
+				exceptionLog = "errors.txt"
+				with open(exceptionLog,'w') as errorfile:
+					errorfile.write(logging.exception("Error in",f_name))
+		textFileLoc =f_name +".smali"
+		with open(textFileLoc, 'w') as outfile:
+		   	for fname in matches:
+				with open(fname,'r') as infile:
+				   	for line in infile:
+				   		splitter = line.split()
+				   		if splitter: 											#checking for null
+							a=splitter[0]										#saving first word
+							if not(a.startswith('#')): 		#detecting comment or a function
+								if a in opcodes:	
+									outfile.write(a + "\n")
 
-			
-					# permission_app.append(re.search('.permission.(.*?)"/>', a[1]).group(1))
-
-	
-			fileLoc=folderLoc+"/"+f_name
+				
+			fileLoc=f_name + ".smali"
 			flag = [0]*10
 			counter = 0
 			for app_per in permission_app:
@@ -139,7 +158,7 @@ for f_name in directory:
 						
 						flag[0] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 
 				if app_per in per_camera:
 					dst=floc + "CAMERA"
@@ -148,7 +167,7 @@ for f_name in directory:
 					if flag[1] == 0:
 						flag[1] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_contacts:
 					dst=floc + "CONTACTS"
 					x[2] = 1
@@ -156,7 +175,7 @@ for f_name in directory:
 					if flag[2] == 0:
 						flag[2] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_location:
 					dst=floc + "LOCATION"
 					x[3] = 1
@@ -164,7 +183,7 @@ for f_name in directory:
 					if flag[3] == 0:
 						flag[3] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_microphone:
 					dst=floc + "MICROPHONE"
 					x[4] = 1
@@ -173,7 +192,7 @@ for f_name in directory:
 						flag[4] = 1
 						total = total+1
 
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_phone:
 					dst=floc+"PHONE"
 					x[5] = 1
@@ -181,7 +200,7 @@ for f_name in directory:
 					if flag[5] == 0:
 						flag[5] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sensor:
 					dst=floc + "SENSOR"
 					x[6] = 1
@@ -189,7 +208,7 @@ for f_name in directory:
 					if flag[6] == 0:
 						flag[6] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_sms:
 					dst=floc + "SMS"
 					x[7] = 1
@@ -197,7 +216,7 @@ for f_name in directory:
 					if flag[7] == 0:
 						flag[7] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 				if app_per in per_storage:
 					dst=floc + "STORAGE"
 					x[8] = 1
@@ -205,14 +224,14 @@ for f_name in directory:
 					if flag[8] == 0:
 						flag[8] = 1
 						total = total+1
-					os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+					os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 			if counter==0 :
 				dst=floc + "OTHERS"
 				x[9] = 1
 				if flag[9] == 0:
 					flag[9] = 1
 					total = total+1
-				os.system("cp -r \"" +fileLoc+ "\" \"" + dst+"\"")
+				os.system("cp  \"" +fileLoc+ "\" \"" + dst+"\"")
 		if fal==0:
 			print()
 			fal=fal+1
@@ -231,6 +250,5 @@ for f_name in directory:
 
 # sys.stdout = open('%s' % out_file, 'w')
 
-sys.stdout = orig_stdout
-sys.stdout.close()
-
+# sys.stdout = orig_stdout
+# sys.stdout.close()

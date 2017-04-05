@@ -45,7 +45,10 @@ the smali files of that apk concatenated in it.
 
 ```
 usage:
-python smali_opcodes_to_frequency.py
+python smali_opcodes_to_frequency.py -d input location -o output location
+
+input location = location of directory where smali files are present.
+output location = location where we want our csv file.
 
 Output a csv file containing the frequency of all opcodes present in smali file.
 

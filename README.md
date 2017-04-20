@@ -1,3 +1,25 @@
+# Shell script for all the work
+```
+usage:
+./copy_har_disk.sh
+1st argument = location of apk's folder in hard disk
+2nd argument = location where we want apks to copy in main memory
+3rd argument = location of unzipped folder
+4th argument = same as 2nd argument/*.apk
+5th argument  = make directory in hard disk
+6th argument =  same as 5th argument
+7th argument = copy location from main memory.
+8th argument = destination to hdd
+9th argument = same as 7th
+10th argument = same as 8th
+11th argument  = location of android_permissions code
+12th, 13th, 14th, 15th argument = instructions on android_permissions github readme
+16th argument = see code of x.sh
+
+order of arguments is accordance with the code.
+
+```
+
 # Grouping decompressed apks on the basis of permissions they access.
 ```
 usage:
